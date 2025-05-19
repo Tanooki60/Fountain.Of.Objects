@@ -1,4 +1,7 @@
-﻿
+﻿static void Main()
+{
+    Console.WriteLine("Hello");
+}
 public class World
 {
     public Room[,] Rooms = new Room[4, 4];

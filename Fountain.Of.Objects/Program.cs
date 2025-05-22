@@ -25,12 +25,9 @@ public class World
     
     public void SetCurrentRoom(Room room) => CurrentRoom = room;
 
-    public void GetRoom()
+    public static Room GetRoom(int column, int row)
     {
-        Console.WriteLine(Rooms[0,0].RoomState);
-        Console.WriteLine(Rooms[0,1].RoomState);
-        Console.WriteLine(Rooms[0,2].RoomState);
-        Console.WriteLine(Rooms[0,3].RoomState);
+        return Rooms[CurrentRoom.Column + column, CurrentRoom.Row + row];
     }
 
     public void SetWorld()
@@ -41,18 +38,22 @@ public class World
                 if (i == 0 && j == 0)
                 {
                     Rooms[i, j] = new Room(0, 0, RoomState.Entrance);
-                    /*Console.WriteLine(Rooms[i, j].RoomState);*/
                     continue;
                 }
                 if (i == 0 && j == 2)
                 {
                     Rooms[i, j] = new Room(0, 2, RoomState.FountainOfObjects);
-                    /*Console.WriteLine(Rooms[i, j].RoomState);*/
                     continue;
                 }
                 
                 Rooms[i, j] = new Room(0, 2, RoomState.Nothing);
             }
+    }
+
+    public static void Move(string movement)
+    {
+        if (CurrentRoom.Column < 3 && movement == "move north")
+            CurrentRoom = GetRoom(1, 0);
     }
 }
 

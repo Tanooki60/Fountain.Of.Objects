@@ -7,7 +7,9 @@ public class FountainOfObjects
         World world = new World();
 
         world.SetWorld();
-        world.GetRoom();
+        //world.GetRoom(0,0);
+        
+        Console.WriteLine(World.CurrentRoom.RoomState);
     }
 
     private bool HasWon(Room room)
@@ -25,9 +27,9 @@ public class World
     
     public void SetCurrentRoom(Room room) => CurrentRoom = room;
 
-    public static Room GetRoom(int column, int row)
+    public static Room GetRoom(int row, int column)
     {
-        return Rooms[CurrentRoom.Column + column, CurrentRoom.Row + row];
+        return Rooms[CurrentRoom.Row + row, CurrentRoom.Column + column];
     }
 
     public void SetWorld()
@@ -48,12 +50,40 @@ public class World
                 
                 Rooms[i, j] = new Room(0, 2, RoomState.Nothing);
             }
+
+        CurrentRoom = Rooms[0, 0];
     }
 
     public static void Move(string movement)
     {
         if (CurrentRoom.Column < 3 && movement == "move north")
             CurrentRoom = GetRoom(1, 0);
+        if (CurrentRoom.Column > 0 && movement == "move south")
+            CurrentRoom = GetRoom( -1, 0);
+        if (CurrentRoom.Row < 3 && movement == "move east")
+            CurrentRoom = GetRoom(0, 1);
+        if (CurrentRoom.Row > 0 && movement == "move west")
+            CurrentRoom = GetRoom(0, -1);
+    }
+
+    public static void ActivateFountainCheck(string command)
+    {
+        if (!Room.FountainIsActive && command == "enable fountain")
+            Room.FountainIsActive = true;
+    }
+
+    public string? RoomStateCheck()
+    {
+        if (CurrentRoom.RoomState == RoomState.Entrance && Room.FountainIsActive)
+            return "The Fountain of Objects has been reactivated, and you have escaped with your life!";
+        if (CurrentRoom.RoomState == RoomState.FountainOfObjects && Room.FountainIsActive)
+            return "You hear the rushing waters from the Fountain of Objects. It has been reactivated!";
+        if (CurrentRoom.RoomState == RoomState.FountainOfObjects)
+            return "You hear water dripping in this room. The Fountain of Objects is here!";
+        if (CurrentRoom.RoomState == RoomState.Entrance)
+            return "You see light coming from the cavern entrance";
+        
+        return null;
     }
 }
 

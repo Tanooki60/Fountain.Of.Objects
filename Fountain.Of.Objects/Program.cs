@@ -8,8 +8,8 @@ public class FountainOfObjects
 
         world.SetWorld();
         //world.GetRoom(0,0);
-        
-        Console.WriteLine(World.CurrentRoom.RoomState);
+
+        GameText(world);
     }
 
     private bool HasWon(Room room)
@@ -18,6 +18,16 @@ public class FountainOfObjects
             return true;
         return false;
     }
+
+    private static void GameText(World world)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine($"You are currently in the room at (Row:{World.CurrentRoom.Row}, Column:{World.CurrentRoom.Column})");
+        Console.WriteLine(world.RoomStateCheck());
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("What do you want to do: ");
+    }
+
 }
 
 public class World
@@ -75,13 +85,20 @@ public class World
     public string? RoomStateCheck()
     {
         if (CurrentRoom.RoomState == RoomState.Entrance && Room.FountainIsActive)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
             return "The Fountain of Objects has been reactivated, and you have escaped with your life!";
+        }
+
         if (CurrentRoom.RoomState == RoomState.FountainOfObjects && Room.FountainIsActive)
             return "You hear the rushing waters from the Fountain of Objects. It has been reactivated!";
         if (CurrentRoom.RoomState == RoomState.FountainOfObjects)
             return "You hear water dripping in this room. The Fountain of Objects is here!";
         if (CurrentRoom.RoomState == RoomState.Entrance)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             return "You see light coming from the cavern entrance";
+        }
         
         return null;
     }

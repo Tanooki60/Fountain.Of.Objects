@@ -62,7 +62,9 @@ public class World
     {
         return Rooms[CurrentRoom.Row + row, CurrentRoom.Column + column];
     }
-
+    
+    /*I originally just set up a foreach loop to create all the rooms, but it was confusing to look at and
+    caused some weird problems with the grid.*/ 
     public void SetWorld()
     {
         Rooms[0, 0] = new Room(0, 0, RoomState.Entrance);
@@ -103,6 +105,7 @@ public class World
             Room.FountainIsActive = true;
     }
 
+    //I could just make this void, but it works as is.
     public string? RoomStateCheck()
     {
         if (CurrentRoom.RoomState == RoomState.Entrance && Room.FountainIsActive)
